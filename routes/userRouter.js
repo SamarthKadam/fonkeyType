@@ -4,6 +4,7 @@ const usercontroller=require('../controllers/userController');
 
 const router=express.Router();
 
+router.get('/',authcontroller.home);
 router.post('/signup',authcontroller.signup);
 router.post('/login',authcontroller.login);
 router.patch('/updateMyPassword',authcontroller.protect,authcontroller.updateMyPassword);
