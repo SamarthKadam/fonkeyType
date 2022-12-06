@@ -159,9 +159,3 @@ exports.deleteMe=catchAsync(async(req,res,next)=>{
         data:null
     })
 })
-
-exports.home=(req,res,next)=>{
-    res.status(200).json({
-        status:'success',
-    })
-}
