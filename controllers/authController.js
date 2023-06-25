@@ -3,12 +3,18 @@ const AppError = require('../utils/AppError');
 const catchAsync=require('../utils/catchasync');
 const User=require('../models/userModel');
 const {promisify}=require('util');
+const  dotenv=require('dotenv');
+
+
+dotenv.config({path:'./../config.env'});
+
+
 
 const signToken=(id)=>{
     const token=jwt.sign({
         id
-    },process.env.JWT_SECRET,{
-        expiresIn:process.env.JWT_EXPIRES
+    },'IAMFUCKINBILLIONARIE',{
+        expiresIn:'90d'
     });
     return token;
 }
@@ -28,11 +34,11 @@ const filterObj=(obj,...allowFields)=>{
 
 exports.signup=catchAsync(async(req,res,next)=>{
 
+
     const user=await User.create({
         name:req.body.name,
         email:req.body.email,
         password:req.body.password,
-        passwordConfirm:req.body.passwordConfirm,
     });
 
     const token=signToken(user._id);
@@ -89,9 +95,15 @@ exports.login=catchAsync(async(req,res,next)=>{
 exports.protect=catchAsync(async(req,res,next)=>{
     
     let token;
+
+
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer'))
     {
          token=req.headers.authorization.split(' ')[1];
+    }
+    else if(req.cookies.jwt)
+    {
+        token=req.cookies.jwt;
     }
 
     if(!token)
@@ -99,7 +111,8 @@ exports.protect=catchAsync(async(req,res,next)=>{
         return next(new AppError('You are not logged in! Please login to get access',400));
     }
 
-   const decoded=await promisify(jwt.verify)(token,process.env.JWT_SECRET);
+
+   const decoded=await promisify(jwt.verify)(token,'IAMFUCKINBILLIONARIE');
 
    const freshUser=await User.findById(decoded.id);
    if(!freshUser) return next(new AppError('The user belonging to token no longer exist',401));
@@ -120,7 +133,6 @@ exports.updateMyPassword=catchAsync(async(req,res,next)=>{
     }
     
     user.password=req.body.password;
-    user.passwordConfirm=req.body.passwordConfirm;
 
    await user.save();
 
@@ -153,6 +165,11 @@ exports.updateData=async(req,res,next)=>{
 exports.deleteMe=catchAsync(async(req,res,next)=>{
     
     await User.findByIdAndUpdate(req.user._id,{active:false});
+
+    res.cookie('jwt','logout_Done',{
+        expires:new Date(Date.now()+process.env.JWT_COOKIE_EXPIRES*24*60*60*1000),
+        httpOnly:true
+    })
 
     res.status(204).json({
         status:'success',

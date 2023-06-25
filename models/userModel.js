@@ -26,17 +26,6 @@ const userSchema=new mongoose.Schema({
         required:[true,'please provide valid password'],
         minlength:8,
     },
-    passwordConfirm:{
-        type:String,
-        required:[true,'please provide your passwordConfirm'],
-        validate:{
-            validator:function(el)
-            {
-                return el===this.password;
-            },
-            message:'please confirm your password'
-        }
-    },
     active:{
         type:Boolean,
         default:true,
@@ -49,7 +38,6 @@ userSchema.pre('save',async function(next){
     if(!this.isModified('password')) return next();
 
     this.password=await bcrypt.hash(this.password,12);
-    this.passwordConfirm=undefined;
     next();
 })
 
