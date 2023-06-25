@@ -89,7 +89,7 @@ function init()
     error=0;
     start=20;
     end=26;
-const data=fetch('http://127.0.0.1:8000/api/v1/para/getRandom').then(response=>{
+const data=fetch(`http://${process.env.DOMAIN}/api/v1/para/getRandom`).then(response=>{
     return response.json();
 }).then(data=>{
     const value=data.data[0].para;
@@ -209,7 +209,7 @@ icons.forEach((data)=>{
         else if(eltHovered==='icon3')
         {
             
-         fetch('http://127.0.0.1:8000/api/v1/users/deleteMe', {
+         fetch(`http://${process.env.DOMAIN}/api/v1/users/deleteMe`, {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json'
@@ -218,7 +218,7 @@ icons.forEach((data)=>{
 
             if(data.ok===true)
             {
-                window.location.replace('http://127.0.0.1:8000/signup')
+                window.location.replace(`http://${process.env.DOMAIN}/signup`)
             }
         })
     }

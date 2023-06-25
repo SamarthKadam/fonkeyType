@@ -13,7 +13,7 @@ dotenv.config({path:'./../config.env'});
 const signToken=(id)=>{
     const token=jwt.sign({
         id
-    },'IAMFUCKINBILLIONARIE',{
+    },process.env.JWTSECRET,{
         expiresIn:'90d'
     });
     return token;
@@ -112,7 +112,7 @@ exports.protect=catchAsync(async(req,res,next)=>{
     }
 
 
-   const decoded=await promisify(jwt.verify)(token,'IAMFUCKINBILLIONARIE');
+   const decoded=await promisify(jwt.verify)(token,process.env.JWTSECRET);
 
    const freshUser=await User.findById(decoded.id);
    if(!freshUser) return next(new AppError('The user belonging to token no longer exist',401));

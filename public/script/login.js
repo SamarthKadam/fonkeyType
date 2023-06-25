@@ -11,7 +11,7 @@ export const login=async(username,password)=>{
   try{
    const res= await axios({
       method:'POST',
-      url:'http://127.0.0.1:8000/api/v1/users/login',
+      url:`http://${process.env.DOMAIN}/api/v1/users/login`,
       data
   });
   if(res.data.status==='success')
