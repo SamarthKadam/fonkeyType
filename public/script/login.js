@@ -11,7 +11,7 @@ export const login=async(username,password)=>{
   try{
    const res= await axios({
       method:'POST',
-      url:`http://${process.env.DOMAIN}/api/v1/users/login`,
+      url:`https://typingplatform.onrender.com/api/v1/users/login`,
       data
   });
   if(res.data.status==='success')
