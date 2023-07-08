@@ -25,7 +25,7 @@ export const login=async(username,password)=>{
 }catch(err)
 {
    statusSeek("Something went wrong",'fail');
-   loginBtn.innerHTML='SIGN IN';
+   loginBtn.value='SIGN IN';
 }
 
 }
