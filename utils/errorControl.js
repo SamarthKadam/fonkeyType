@@ -45,9 +45,9 @@ const HandleTokenExpiration=(err)=>{
 
 module.exports=(err,req,res,next)=>{
 
-        if(err.message!=='TypeError')
+        if(err.message==='jwt malformed')
         {
-          res.redirect('/signup');
+         return res.redirect('/signup');
         }
 
       err.statusCode=err.statusCode||500
