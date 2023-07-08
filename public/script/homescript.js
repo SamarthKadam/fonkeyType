@@ -73,7 +73,12 @@ function letstart()
         bug=1;
         // timming=30;
         SectionElement.innerHTML='';
-        html=`<div class="done">Accuracy ${(100-(error/lenght*100)).toFixed(2)}%</div>`
+        let value=100-(error/lenght*100);
+        if(value<0)
+        {
+            value=0;
+        }
+        html=`<div class="done">Accuracy ${(value).toFixed(2)}%</div>`
         SectionElement.insertAdjacentHTML('beforeend',html);
         return;
 }
@@ -111,7 +116,8 @@ function endingit()
     count=0;
     // timming=30;
     SectionElement.innerHTML='';
-    html=`<div class="done">Accuracy ${(100-(error/lenght*100)).toFixed(2)}%</div>`
+    let value=100-(error/lenght*100);
+    html=`<div class="done">Accuracy ${(value).toFixed(2)}%</div>`
     SectionElement.insertAdjacentHTML('beforeend',html);
 }
 

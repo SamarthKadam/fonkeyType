@@ -44,7 +44,11 @@ const HandleTokenExpiration=(err)=>{
 }
 
 module.exports=(err,req,res,next)=>{
-  
+
+        if(err.message!=='TypeError')
+        {
+          res.redirect('/signup');
+        }
 
       err.statusCode=err.statusCode||500
       err.status=err.status||'fail'
