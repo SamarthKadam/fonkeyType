@@ -25,7 +25,7 @@ if(loginBtn)
         username.value='';
         password.value=''
 
-        loginBtn.innerHTML='loading....';
+        loginBtn.value='loading....';
         login(usernameVal,passwordVal);
     })
 }
@@ -53,7 +53,7 @@ if(signinBtn)
         email.value='';
         password.value=''
 
-        signinBtn.innerHTML='loading....';
+        signinBtn.value='loading....';
         signIn(nameVal,emailVal,passVal);
     })
 
